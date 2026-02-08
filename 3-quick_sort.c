@@ -21,7 +21,7 @@ ssize_t lomuto_partition(int *array, ssize_t low, ssize_t high, size_t size)
 	{
 		if (array[j] < pivot)
 		{
-			if (i != j) /* swap only if indices are different */
+			if (i != j && array[i] != array[j])
 			{
 				temp = array[i];
 				array[i] = array[j];
@@ -32,7 +32,7 @@ ssize_t lomuto_partition(int *array, ssize_t low, ssize_t high, size_t size)
 		}
 	}
 
-	if (i != high) /* place pivot in correct position */
+	if (i != high && array[i] != array[high])
 	{
 		temp = array[i];
 		array[i] = array[high];
