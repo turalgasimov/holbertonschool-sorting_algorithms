@@ -1,9 +1,5 @@
 #include "sort.h"
 
-/* Function prototypes */
-void quick_sort_recursive(int *array, ssize_t low, ssize_t high, size_t size);
-ssize_t lomuto_partition(int *array, ssize_t low, ssize_t high, size_t size);
-
 /**
  * quick_sort - sorts an array of integers in ascending order
  * @array: pointer to the array
