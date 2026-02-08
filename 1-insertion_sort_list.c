@@ -1,44 +1,49 @@
 #include "sort.h"
 
 /**
- * insertion_sort_list - entry point
- *@list: list
+ * insertion_sort_list - sorts a doubly linked list using insertion sort
+ * @list: pointer to the head of the list
  */
 void insertion_sort_list(listint_t **list)
 {
-	int key;
-	listint_t *j, *l = *list;
+	listint_t *sorted = NULL;
+	listint_t *curr, *next, *tmp;
 
-	l = l->next;
-	while (l)
+	if (list == NULL || *list == NULL)
+		return;
+	curr = *list;
+	while (curr)
 	{
-		key = l->n;
-		j = l->prev;
+		next = curr->next;
 
-		while (j && (j->n > key))
+		/* Fully detach curr */
+		curr->prev = NULL;
+		curr->next = NULL;
+
+		/* Insert at beginning of sorted list */
+		if (sorted == NULL || curr->n <= sorted->n)
 		{
-			if (l->next)
-			{
-				j->next = l->next;
-				l->next->prev = j;
-			} else
-			{
-				j->next = NULL;
-			}
-			if (j->prev)
-			{
-				l->prev = j->prev;
-				j->prev->next = l;
-			} else
-			{
-				l->prev = NULL;
-			}
-			l->next = j;
-			j->prev = l;
-			
-			j = l->prev;
-			print_list(*list);
+			curr->next = sorted;
+			if (sorted)
+				sorted->prev = curr;
+			sorted = curr;
 		}
-		l = l->next;
+		else
+		{
+			tmp = sorted;
+			while (tmp->next && tmp->next->n < curr->n)
+				tmp = tmp->next;
+
+			curr->next = tmp->next;
+			if (tmp->next)
+				tmp->next->prev = curr;
+
+			tmp->next = curr;
+			curr->prev = tmp;
+		}
+
+		*list = sorted;
+		print_list(*list);
+		curr = next;
 	}
 }
