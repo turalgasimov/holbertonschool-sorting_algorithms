@@ -7,7 +7,7 @@
 void insertion_sort_list(listint_t **list)
 {
 	int key, j;
-	listint_t *l = list;
+	listint_t *l = *list;
 
 	l = l->next;
 	while (l)
