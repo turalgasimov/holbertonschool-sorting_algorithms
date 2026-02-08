@@ -1,45 +1,43 @@
 #include "sort.h"
 
-void quick_sort_recursive(int *array, ssize_t low, ssize_t high,
-		size_t size);
-ssize_t lomuto_partition(int *array, ssize_t low, ssize_t high,
-		size_t size);
+/* Function prototypes */
+void quick_sort_recursive(int *array, ssize_t low, ssize_t high, size_t size);
+ssize_t lomuto_partition(int *array, ssize_t low, ssize_t high, size_t size);
 
 /**
- * quick_sort - sorts an array of integers using Quick sort
- * @array: array to sort
+ * quick_sort - sorts an array of integers in ascending order
+ * @array: pointer to the array
  * @size: size of the array
  */
 void quick_sort(int *array, size_t size)
 {
-	if (array == NULL || size < 2)
+	if (!array || size < 2)
 		return;
 
 	quick_sort_recursive(array, 0, size - 1, size);
 }
 
 /**
- * quick_sort_recursive - recursive quick sort
+ * quick_sort_recursive - recursive helper for quick sort
  * @array: array to sort
  * @low: starting index
  * @high: ending index
  * @size: size of the array
  */
-void quick_sort_recursive(int *array, ssize_t low, ssize_t high,
-		size_t size)
+void quick_sort_recursive(int *array, ssize_t low, ssize_t high, size_t size)
 {
-	ssize_t p;
+	ssize_t pivot_index;
 
 	if (low < high)
 	{
-		p = lomuto_partition(array, low, high, size);
-		quick_sort_recursive(array, low, p - 1, size);
-		quick_sort_recursive(array, p + 1, high, size);
+		pivot_index = lomuto_partition(array, low, high, size);
+		quick_sort_recursive(array, low, pivot_index - 1, size);
+		quick_sort_recursive(array, pivot_index + 1, high, size);
 	}
 }
 
 /**
- * lomuto_partition - partitions array using Lomuto scheme
+ * lomuto_partition - partitions the array using the Lomuto scheme
  * @array: array to partition
  * @low: starting index
  * @high: ending index (pivot)
@@ -47,8 +45,7 @@ void quick_sort_recursive(int *array, ssize_t low, ssize_t high,
  *
  * Return: index of pivot
  */
-ssize_t lomuto_partition(int *array, ssize_t low, ssize_t high,
-		size_t size)
+ssize_t lomuto_partition(int *array, ssize_t low, ssize_t high, size_t size)
 {
 	int pivot, temp;
 	ssize_t i, j;
@@ -60,7 +57,7 @@ ssize_t lomuto_partition(int *array, ssize_t low, ssize_t high,
 	{
 		if (array[j] < pivot)
 		{
-			if (i != j)
+			if (i != j) /* swap only if indices are different */
 			{
 				temp = array[i];
 				array[i] = array[j];
@@ -71,7 +68,7 @@ ssize_t lomuto_partition(int *array, ssize_t low, ssize_t high,
 		}
 	}
 
-	if (i != high)
+	if (i != high) /* place pivot in correct position */
 	{
 		temp = array[i];
 		array[i] = array[high];
